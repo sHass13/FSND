@@ -39,9 +39,12 @@ class Venue(db.Model):
     address = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(120), nullable=False)
     genre = db.Column(db.String(), nullable=True)
-    image_link = db.Column(db.String(500), nullable=True)
     facebook_link = db.Column(db.String(120), nullable=True)
-
+    image_link = db.Column(db.String(500), nullable=True)
+    website_link = db.Column(db.String(120), nullable=True)
+    looking_for_talent = db.Column(db.Boolean, default=False, nullable=False)
+    seeking_description = db.Column(db.String(500), nullable=True)
+    
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
