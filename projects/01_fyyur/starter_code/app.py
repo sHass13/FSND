@@ -56,7 +56,11 @@ class Artist(db.Model):
     facebook_link = db.Column(db.String(120), nullable=True)
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
-  
+
+class Shows(db.Model):
+    __tablename__ = 'Shows'  
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
