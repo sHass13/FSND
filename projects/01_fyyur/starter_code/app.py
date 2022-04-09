@@ -62,6 +62,7 @@ class Shows(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
+    venue = db.Column(db.String(), nullable=False)
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 # db.create_all() 
 
