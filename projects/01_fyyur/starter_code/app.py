@@ -38,7 +38,7 @@ class Venue(db.Model):
     state = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(120), nullable=False)
-    genre = db.Column(db.String(), nullable=True)
+    genres = db.Column(db.String(), nullable=True)
     facebook_link = db.Column(db.String(120), nullable=True)
     image_link = db.Column(db.String(500), nullable=True)
     website_link = db.Column(db.String(120), nullable=True)
@@ -55,10 +55,13 @@ class Artist(db.Model):
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(120), nullable=False)
-    genres = db.Column(db.String(120), nullable=False)
-    image_link = db.Column(db.String(500), nullable=True)
+    genres = db.Column(db.String(), nullable=False)
     facebook_link = db.Column(db.String(120), nullable=True)
-
+    image_link = db.Column(db.String(500), nullable=True)
+    website_link = db.Column(db.String(120), nullable=True)
+    looking_for_venues = db.Column(db.Boolean, default=False, nullable=False)
+    seeking_description = db.Column(db.String(500), nullable=True)
+    
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Shows(db.Model):
