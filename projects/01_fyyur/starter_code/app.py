@@ -28,13 +28,13 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
+
 shows = db.Table('shows',
     db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True),
     db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True),
     db.Column('date_time', db.DateTime(), nullable=False)
 )
   
-
 class Venue(db.Model):
     __tablename__ = 'venue'
 
@@ -493,6 +493,11 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
+  form = ShowForm()
+  show = shows.venue_id=form.venue_id.data
+  db.session.add(show)
+  db.session.commit()
+
   # called to create new shows in the db, upon submitting new show listing form
   # TODO: insert form data as a new Show record in the db, instead
 
