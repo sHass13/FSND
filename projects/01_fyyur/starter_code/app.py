@@ -28,6 +28,12 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
+shows = db.Table('shows',
+    db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True),
+    db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True),
+    db.Column('date_time', db.DateTime(), nullable=False)
+)
+  
 
 class Venue(db.Model):
     __tablename__ = 'venue'
@@ -44,6 +50,8 @@ class Venue(db.Model):
     website_link = db.Column(db.String(120), nullable=True)
     looking_for_talent = db.Column(db.Boolean, default=False, nullable=False)
     seeking_description = db.Column(db.String(500), nullable=True)
+    artist_shows = db.relationship('Artist', secondary=shows,
+      backref=db.backref('show', lazy=True) )
     
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
@@ -64,16 +72,7 @@ class Artist(db.Model):
     
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
-class Shows(db.Model):
-    __tablename__ = 'shows'  
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    venue = db.Column(db.String(), nullable=False)
-    date_time = db.Column(db.DateTime(), nullable=False)
-    
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-# db.create_all() 
+    # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
 # Filters.
