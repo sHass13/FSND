@@ -29,13 +29,6 @@ migrate = Migrate(app, db)
 # Models.
 #----------------------------------------------------------------------------#
 
-class Shows(db.Model):
-    __tablename__ = 'shows'
-   
-    venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), primary_key=True)
-    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), primary_key=True)
-    date_time = db.Column(db.DateTime())
-
 class Venue(db.Model):
     __tablename__ = 'venue'
 
@@ -51,8 +44,6 @@ class Venue(db.Model):
     website_link = db.Column(db.String(120), nullable=True)
     looking_for_talent = db.Column(db.Boolean, default=False, nullable=False)
     seeking_description = db.Column(db.String(500), nullable=True)
-    artist_shows = db.relationship('Artist', secondary=Shows,
-      backref=db.backref('show', lazy=True) )
     
     def __repr__(self):
       return f'<Venue {self.id} {self.name}>'
@@ -128,7 +119,7 @@ def venues():
       "num_upcoming_shows": 0,
     }]
   }]
-  return render_template('pages/venues.html', areas=data);
+  return render_template('pages/venues.html', areas=data)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -227,7 +218,7 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', venue=Venue.query.all())
+  return render_template('pages/show_venue.html', venue=Venue.query.filter(id='venue_id').all())
 
 #  Create Venue
 #  ----------------------------------------------------------------
