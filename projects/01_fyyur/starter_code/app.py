@@ -29,11 +29,12 @@ migrate = Migrate(app, db)
 # Models.
 #----------------------------------------------------------------------------#
 
-shows = db.Table('shows',
-    db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True),
-    db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True),
-    db.Column('date_time', db.DateTime(), nullable=False)
-)
+class Shows(db.Model):
+    __tablename__ = 'shows'
+   
+    venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), primary_key=True)
+    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), primary_key=True)
+    date_time = db.Column(db.DateTime())
   
 class Venue(db.Model):
     __tablename__ = 'venue'
@@ -50,7 +51,7 @@ class Venue(db.Model):
     website_link = db.Column(db.String(120), nullable=True)
     looking_for_talent = db.Column(db.Boolean, default=False, nullable=False)
     seeking_description = db.Column(db.String(500), nullable=True)
-    artist_shows = db.relationship('Artist', secondary=shows,
+    artist_shows = db.relationship('Artist', secondary=Shows,
       backref=db.backref('show', lazy=True) )
     
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
@@ -494,7 +495,7 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
   form = ShowForm()
-  show = shows.venue_id=form.venue_id.data
+  show = shows(venue_id=form.venue_id.data)
   db.session.add(show)
   db.session.commit()
 
