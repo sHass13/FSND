@@ -35,6 +35,8 @@ class Shows(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), primary_key=True)
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), primary_key=True)
     date_time = db.Column(db.DateTime())
+
+    
   
 class Venue(db.Model):
     __tablename__ = 'venue'
