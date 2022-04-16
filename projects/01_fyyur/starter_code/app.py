@@ -36,8 +36,6 @@ class Shows(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), primary_key=True)
     date_time = db.Column(db.DateTime())
 
-    
-  
 class Venue(db.Model):
     __tablename__ = 'venue'
 
@@ -57,7 +55,7 @@ class Venue(db.Model):
       backref=db.backref('show', lazy=True) )
     
     def __repr__(self):
-      return f'<Venue {self.id'}>'
+      return f'<Venue {self.id} {self.name}>'
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
@@ -229,7 +227,7 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', venue=data)
+  return render_template('pages/show_venue.html', venue=Venue.query.all())
 
 #  Create Venue
 #  ----------------------------------------------------------------
