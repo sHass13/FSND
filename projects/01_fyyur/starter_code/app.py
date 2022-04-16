@@ -54,6 +54,8 @@ class Venue(db.Model):
     artist_shows = db.relationship('Artist', secondary=Shows,
       backref=db.backref('show', lazy=True) )
     
+    def __repr__(self):
+      return f'<Venue {self.id'}>'
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
