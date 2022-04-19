@@ -231,7 +231,8 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  venue2show = Venue.query.filter(venue_id = Venue.id).all()
+  venue2show = Venue.query.filter_by(id='venue_id')
+
   dataset = {
             'id': venue2show.id,
             'name': venue2show.name,
