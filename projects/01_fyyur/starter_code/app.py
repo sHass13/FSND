@@ -46,7 +46,7 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(500), nullable=True)
     
     def __repr__(self):
-      return f'<Venue {self.id} {self.name}>'
+      return f'<Venue {self.id}, {self.name}, {self.city}, {self.state}, {self.phone}, {self.looking_for_talent}>'
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
@@ -119,7 +119,8 @@ def venues():
       "num_upcoming_shows": 0,
     }]
   }]
-  return render_template('pages/venues.html', areas=data)
+  places = Venue.query.distinct(Venue.city, Venue.state).all(),
+  return render_template('pages/venues.html', areas = places)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -142,7 +143,7 @@ def show_venue(venue_id):
   # TODO: replace with real venue data from the venues table, using venue_id
   data1={
     "id": 1,
-    "name": "The Musical Hop",
+    "name": "venue1",
     "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
     "address": "1015 Folsom Street",
     "city": "San Francisco",
@@ -218,7 +219,7 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', venue=Venue.query.filter(id='venue_id').all())
+  return render_template('pages/show_venue.html', venue=Venue.query.filter_by(id='venue_id').all())
 
 #  Create Venue
 #  ----------------------------------------------------------------
