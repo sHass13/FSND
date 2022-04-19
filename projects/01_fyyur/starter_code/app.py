@@ -238,7 +238,8 @@ def show_venue(venue_id):
             'name': venue2show.name,
             'address': venue2show.address,
             'city': venue2show.city,
-            'state': venue2show.state
+            'state': venue2show.state,
+            'phone': venue2show.phone
             }
   return render_template('pages/show_venue.html', venue=dataset)
 
