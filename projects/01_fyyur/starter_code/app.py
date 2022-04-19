@@ -119,8 +119,20 @@ def venues():
       "num_upcoming_shows": 0,
     }]
   }]
-  places = Venue.query.distinct(Venue.city, Venue.state).all(),
-  return render_template('pages/venues.html', areas = places)
+  locals = []
+  venues = Venue.query.all()
+  places = Venue.query.distinct(Venue.city, Venue.state).all()
+  for place in places:
+      locals.append({
+          "city": place.city,
+          "state": place.state,
+          "venues": [{
+              "id": venue.id,
+              "name": venue.name,
+          } for venue in venues if
+              venue.city == place.city and venue.state == place.state]
+      })
+  return render_template('pages/venues.html', areas=locals)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -219,6 +231,14 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
+  venue2show = Venue.query.filter(Venue.id == venue_id).first
+  dataset = {
+            'id':venue2show.id,
+            'name':venue2show.name,
+            'address':venue2show.address,
+            'city':venue2show.city,
+            'state':venue2show.state
+            }
   return render_template('pages/show_venue.html', venue=Venue.query.filter_by(id='venue_id').all())
 
 #  Create Venue
