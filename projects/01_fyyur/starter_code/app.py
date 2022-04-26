@@ -243,6 +243,9 @@ def show_venue(venue_id):
             'website': venue2show.website_link,
             'image_link': venue2show.image_link,
             'seeking_talent': venue2show.looking_for_talent,
+            'facebook_link': venue2show.facebook_link,
+            'seeking_description': venue2show.seeking_description,
+            'genres': venue2show.genres
             }
   return render_template('pages/show_venue.html', venue=dataset)
 
