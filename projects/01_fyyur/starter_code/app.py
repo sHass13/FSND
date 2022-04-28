@@ -3,6 +3,7 @@
 #----------------------------------------------------------------------------#
 
 import json
+from ssl import ALERT_DESCRIPTION_UNRECOGNIZED_NAME
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -232,7 +233,7 @@ def show_venue(venue_id):
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
   venue2show = Venue.query.get(venue_id)
-
+  
   dataset = {
             'id': venue2show.id,
             'name': venue2show.name,
@@ -245,7 +246,7 @@ def show_venue(venue_id):
             'seeking_talent': venue2show.looking_for_talent,
             'facebook_link': venue2show.facebook_link,
             'seeking_description': venue2show.seeking_description,
-            'genres': venue2show.genres
+            'genres': venue2show.genres.split(',')
             }
   return render_template('pages/show_venue.html', venue=dataset)
 
@@ -293,7 +294,15 @@ def artists():
     "id": 6,
     "name": "The Wild Sax Band",
   }]
-  return render_template('pages/artists.html', artists=data)
+  artist_listing = []
+  artists = Artist.query.all()
+  for artist in artists:
+    artist_listing.append({
+      "id": artist.id,
+      "name": artist.name}
+      )
+
+  return render_template('pages/artists.html', artists=artist_listing)
 
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
@@ -385,8 +394,23 @@ def show_artist(artist_id):
     "past_shows_count": 0,
     "upcoming_shows_count": 3,
   }
-  data = list(filter(lambda d: d['id'] == artist_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_artist.html', artist=data)
+  #data = list(filter(lambda d: d['id'] == artist_id, [data1, data2, data3]))[0]
+  artist2show = Artist.query.get(artist_id)
+  dataset={
+      "id": artist2show.id,
+      "name": artist2show.name,
+      "genres": artist2show.genres.split(','),
+      "city": artist2show.city,
+      "state": artist2show.state,
+      "phone": artist2show.phone,
+      "seeking_venue": artist2show.looking_for_venues,
+      "seeking_description": artist2show.seeking_description,
+      "image_link": artist2show.image_link,
+      "website": artist2show.website_link,
+      "facebook_link": artist2show.facebook_link
+      }
+
+  return render_template('pages/show_artist.html', artist=dataset)
 
 #  Update
 #  ----------------------------------------------------------------
